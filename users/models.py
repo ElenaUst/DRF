@@ -1,8 +1,11 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
+from lms.models import Courses, Lessons
+
 
 class User(AbstractUser):
+    """Класс для создания модели пользователя"""
     username = None
     email = models.EmailField(unique=True, verbose_name='почта пользователя')
     phone = models.CharField(max_length=35, verbose_name='телефон', blank=True, null=True)
@@ -15,3 +18,29 @@ class User(AbstractUser):
     class Meta:
         verbose_name = 'пользователь'
         verbose_name_plural = 'пользователи'
+
+
+class Payments(models.Model):
+    """Класс для создания модели платежей"""
+    PAYMENT_METHOD_CHOICES = [
+        ('cash', 'наличные'),
+        ('card', 'безнал')
+    ]
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    date_pay = models.DateTimeField(auto_now=True, verbose_name='дата оплаты')
+    paid_course = models.ForeignKey(Courses, on_delete=models.CASCADE, null=True, blank=True,
+                                    verbose_name='оплаченный курс')
+    paid_lesson = models.ForeignKey(Lessons, on_delete=models.CASCADE, null=True, blank=True,
+                                    verbose_name='отдельно оплаченный урок')
+    payment_sum = models.PositiveIntegerField(verbose_name='сумма платежа')
+    payment_method = models.CharField(max_length=150, choices=PAYMENT_METHOD_CHOICES, verbose_name='метод оплаты')
+
+    def __str__(self):
+        return f'{self.user}: {self.date_pay}, {self.payment_sum}, ' \
+               f'{self.paid_course if self.paid_course else self.paid_lesson}'
+
+    class Meta:
+        verbose_name = 'платеж'
+        verbose_name_plural = 'платежи'
+        ordering = ['-date_pay']

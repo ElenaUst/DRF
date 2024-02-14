@@ -37,10 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
 
+    'rest_framework',
     'users',
     'lms',
+    'django_filters',
+
 
 ]
 
@@ -85,7 +87,7 @@ DATABASES = {
         'USER': 'postgres',
         'HOST': '127.0.0.1',
         'PORT': 5432,
-        'PASSWORD': 'Anna450053!'
+        'PASSWORD': 'user_password'
     }
 }
 
