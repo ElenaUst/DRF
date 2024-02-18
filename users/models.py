@@ -20,6 +20,7 @@ class User(AbstractUser):
         verbose_name_plural = 'пользователи'
 
 
+
 class Payments(models.Model):
     """Класс для создания модели платежей"""
     PAYMENT_METHOD_CHOICES = [

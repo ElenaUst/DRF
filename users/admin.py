@@ -12,5 +12,5 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Payments)
 class PaymentsAdmin(admin.ModelAdmin):
     """Отображение списка платежей"""
-    list_display = ('user', 'date_pay', 'paid_course','paid_lesson')
+    list_display = ('user', 'date_pay', 'paid_course', 'paid_lesson')
 
