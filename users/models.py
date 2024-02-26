@@ -20,7 +20,6 @@ class User(AbstractUser):
         verbose_name_plural = 'пользователи'
 
 
-
 class Payments(models.Model):
     """Класс для создания модели платежей"""
     PAYMENT_METHOD_CHOICES = [
@@ -45,3 +44,15 @@ class Payments(models.Model):
         verbose_name = 'платеж'
         verbose_name_plural = 'платежи'
         ordering = ['-date_pay']
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='пользователь')
+    course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True, verbose_name='курс')
+
+    def __str__(self):
+        return f'{self.user}: {self.course}'
+
+    class Meta:
+        verbose_name = 'подписка'
+        verbose_name_plural = 'подписки'

@@ -22,7 +22,7 @@ class Lessons(models.Model):
     description = models.TextField(verbose_name='описание урока', blank=True, null=True)
     course = models.ForeignKey(Courses, on_delete=models.CASCADE, blank=True, null=True, verbose_name='курс')
     preview = models.ImageField(upload_to='image/', verbose_name='изображение', blank=True, null=True)
-    link = models.FileField(upload_to='files/', null=True, blank=True)
+    link = models.URLField(null=True, blank=True)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name='создатель урока', blank=True,
                               null=True)
 
@@ -32,6 +32,7 @@ class Lessons(models.Model):
     class Meta:
         verbose_name = 'урок'
         verbose_name_plural = 'уроки'
+        ordering = ['title']
 
 
 
