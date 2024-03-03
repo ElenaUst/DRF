@@ -35,9 +35,11 @@ class Payments(models.Model):
                                     verbose_name='отдельно оплаченный урок')
     payment_sum = models.PositiveIntegerField(verbose_name='сумма платежа')
     payment_method = models.CharField(max_length=150, choices=PAYMENT_METHOD_CHOICES, verbose_name='метод оплаты')
+    payment_link = models.URLField(max_length=400, verbose_name='ссылка на оплату', blank=True, null=True)
+    payment_id = models.CharField(max_length=255, verbose_name='идентификатор платежа', blank=True, null=True)
 
     def __str__(self):
-        return f'{self.user}: {self.date_pay}, {self.payment_sum}, ' \
+        return f'{self.user}: {self.date_pay}, {self.payment_sum}, {self.payment_id}' \
                f'{self.paid_course if self.paid_course else self.paid_lesson}'
 
     class Meta:

@@ -7,13 +7,14 @@ class Courses(models.Model):
     preview = models.ImageField(upload_to='image/', verbose_name='изображение', blank=True, null=True)
     description = models.TextField(verbose_name='описание курса', blank=True, null=True)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name='создатель курса', blank=True, null=True)
-
+    price = models.PositiveIntegerField(default=150000, verbose_name='стоимость')
     def __str__(self):
         return f'{self.title} {self.preview} {self.description}'
 
     class Meta:
         verbose_name = 'курс'
         verbose_name_plural = 'курсы'
+        ordering = ['title']
 
 
 class Lessons(models.Model):
@@ -25,6 +26,7 @@ class Lessons(models.Model):
     link = models.URLField(null=True, blank=True)
     owner = models.ForeignKey("users.User", on_delete=models.CASCADE, verbose_name='создатель урока', blank=True,
                               null=True)
+    price = models.PositiveIntegerField(default=10000, verbose_name='стоимость')
 
     def __str__(self):
         return f'{self.title} {self.description} {self.preview} {self.link}'
@@ -33,6 +35,11 @@ class Lessons(models.Model):
         verbose_name = 'урок'
         verbose_name_plural = 'уроки'
         ordering = ['title']
+
+
+
+
+
 
 
 

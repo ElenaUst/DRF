@@ -2,7 +2,7 @@ from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 
 from lms.models import Courses, Lessons
-from lms.paginators import CoursesPagination, LessonsPagination
+from lms.paginators import CustomPagination
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CoursesSerializer, LessonsSerializer
 
@@ -11,7 +11,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
     """Вьюсет для действий с курсами"""
     serializer_class = CoursesSerializer
     queryset = Courses.objects.all()
-    pagination_class = CoursesPagination
+    pagination_class = CustomPagination
 
     def perform_create(self, serializer):
         """Метод для автоматической привязки курса к создателю"""
@@ -62,7 +62,7 @@ class LessonsListAPIView(generics.ListAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
-    pagination_class = LessonsPagination
+    pagination_class = CustomPagination
 
 
 class LessonsDestroyAPIView(generics.DestroyAPIView):
@@ -70,6 +70,9 @@ class LessonsDestroyAPIView(generics.DestroyAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializer
     permission_classes = [IsAuthenticated, IsOwner]
+
+
+
 
 
 

@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'lms',
     'django_filters',
     'rest_framework_simplejwt',
+    'drf_yasg',
 
 
 ]
@@ -143,9 +144,26 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',),
        'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',),
-}
+    }
+
+
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=150),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
+
+SWAGGER_SETTINGS = {
+    'SECURITY_DEFINITIONS': {
+        'Basic': {
+            'type': 'basic',
+        },
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        },
+    }
+}
+
+STRIPE_API_KEY = 'sk_test_51OpDEdGjGDX2cgcJBA4bUanbX1UIe7NTSEweVqNz5sfCkVV60qqYr7jSc2wTOehCJuixXlNA1RnIPUPIb1nBf6nj00JU7hySKk'
