@@ -56,8 +56,8 @@ class PaymentsCreate(generics.CreateAPIView):
 
     def perform_create(self, serializer):
         payment = serializer.save()
-        create_stripe_product(payment.id)
-        stripe_price_id = create_stripe_price(payment.payment_sum)
+        stripe_prod_id = create_stripe_product(payment)
+        stripe_price_id = create_stripe_price(payment, stripe_prod_id)
         payment.payment_link, payment.payment_id = create_stripe_session(stripe_price_id)
         payment.save()
 

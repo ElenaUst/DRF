@@ -1,7 +1,7 @@
 import stripe
 
 from config.settings import STRIPE_API_KEY
-from users.models import Payments
+
 
 stripe.api_key = STRIPE_API_KEY
 
@@ -14,12 +14,12 @@ def create_stripe_product(instance):
     return stripe_product['id']
 
 
-def create_stripe_price(product):
+def create_stripe_price(product, id):
     """Функция создания цены в Stripe"""
     stripe_price = stripe.Price.create(
         currency='rub',
         unit_amount=product.payment_sum*100,
-        product=product.id,
+        product=id,
     )
     return stripe_price['id']
 
