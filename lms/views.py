@@ -5,6 +5,7 @@ from lms.models import Courses, Lessons
 from lms.paginators import CustomPagination
 from lms.permissions import IsModerator, IsOwner
 from lms.serializers import CoursesSerializer, LessonsSerializer
+from lms.tasks import send_mail_update_course
 
 
 class CoursesViewSet(viewsets.ModelViewSet):
@@ -16,6 +17,17 @@ class CoursesViewSet(viewsets.ModelViewSet):
     def perform_create(self, serializer):
         """Метод для автоматической привязки курса к создателю"""
         serializer.save(owner=self.request.user)
+
+    def perform_update(self, serializer):
+        """Метод для запуска функции отправки уведомлений об обновлении курса"""
+        update_course = serializer.save()
+        send_mail_update_course.delay(update_course.id)
+        print(update_course.id)
+        update_course.save()
+
+
+
+
 
     def get_permissions(self):
         """Метод описания доступов к действиям с уроками"""
@@ -30,6 +42,9 @@ class CoursesViewSet(viewsets.ModelViewSet):
         elif self.action == 'destroy':
             self.permission_classes = [IsAuthenticated, IsOwner]
         return [permission() for permission in self.permission_classes]
+
+
+
 
 
 class LessonsCreateAPIView(generics.CreateAPIView):
@@ -48,6 +63,8 @@ class LessonsUpdateAPIView(generics.UpdateAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
+
+
 
 
 class LessonsRetrieveAPIView(generics.RetrieveAPIView):
