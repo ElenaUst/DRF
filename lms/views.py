@@ -22,12 +22,7 @@ class CoursesViewSet(viewsets.ModelViewSet):
         """Метод для запуска функции отправки уведомлений об обновлении курса"""
         update_course = serializer.save()
         send_mail_update_course.delay(update_course.id)
-        print(update_course.id)
         update_course.save()
-
-
-
-
 
     def get_permissions(self):
         """Метод описания доступов к действиям с уроками"""
@@ -44,14 +39,10 @@ class CoursesViewSet(viewsets.ModelViewSet):
         return [permission() for permission in self.permission_classes]
 
 
-
-
-
 class LessonsCreateAPIView(generics.CreateAPIView):
     """Класс для создания урока"""
     serializer_class = LessonsSerializer
     permission_classes = [IsAuthenticated, ~IsModerator]
-
 
     def perform_create(self, serializer):
         """Метод для автоматической привязки урока к создателю"""
@@ -63,8 +54,6 @@ class LessonsUpdateAPIView(generics.UpdateAPIView):
     queryset = Lessons.objects.all()
     serializer_class = LessonsSerializer
     permission_classes = [IsAuthenticated, IsModerator | IsOwner]
-
-
 
 
 class LessonsRetrieveAPIView(generics.RetrieveAPIView):
