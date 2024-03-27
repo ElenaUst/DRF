@@ -1,5 +1,5 @@
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import generics, filters, status
+from rest_framework import generics, status
 from rest_framework.filters import OrderingFilter
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -7,7 +7,7 @@ from rest_framework.views import APIView
 
 from lms.models import Courses
 from users.models import Payments, User, Subscription
-from users.serializers import PaymentsSerializer, UserSerializer, UserRegisterSerializer, SubscriptionSerializer
+from users.serializers import PaymentsSerializer, UserSerializer, UserRegisterSerializer
 from users.services import create_stripe_price, create_stripe_session, create_stripe_product
 
 
